@@ -44,6 +44,20 @@ class ContactsRepository {
     });
   }
 
+  update(id, contact) {
+    return new Promise((resolve) => {
+      const updatedContact = {
+        id,
+        ...contact,
+      };
+
+      contacts = contacts.map((contactItem) => (
+        contactItem.id === id ? updatedContact : contactItem
+      ));
+      resolve(updatedContact);
+    });
+  }
+
   remove(id) {
     return new Promise((resolve) => {
       contacts = contacts.filter((contact) => contact.id !== id);
