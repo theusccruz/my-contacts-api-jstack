@@ -20,7 +20,28 @@ class ContactController {
     return response.json(contact);
   }
 
-  store() {}
+  async store(request, response) {
+    const {
+      name, email, phone, category_id,
+    } = request.body;
+
+    const contactExists = await ContactsRepository.findByEmail(email);
+
+    if (contactExists) {
+      return response.status(400).json({
+        error: 'Este email já é usado por outro usuário',
+      });
+    }
+
+    const contact = await ContactsRepository.create({
+      name,
+      email,
+      phone,
+      category_id,
+    });
+
+    return response.status(201).json(contact);
+  }
 
   update() {}
 
